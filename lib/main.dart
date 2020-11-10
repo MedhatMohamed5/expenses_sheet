@@ -18,10 +18,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
         accentColor: Colors.amber,
-        fontFamily: 'QuickSand',
+        fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
               headline6: TextStyle(
-                fontFamily: 'OpenSans',
+                fontFamily: 'Quicksand',
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
@@ -48,18 +48,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
-    Transaction(
-      id: 't1',
-      title: 'New Shoes',
-      amount: 119.959,
-      transDate: DateTime.now(),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'New Jacket',
-      amount: 249.99,
-      transDate: DateTime.now(),
-    ),
+    // Transaction(
+    //   id: 't1',
+    //   title: 'New Shoes',
+    //   amount: 119.959,
+    //   transDate: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: 't2',
+    //   title: 'New Jacket',
+    //   amount: 249.99,
+    //   transDate: DateTime.now(),
+    // ),
   ];
 
   void _addNewTransaction(String title, double amount) {
@@ -79,7 +79,11 @@ class _MyHomePageState extends State<MyHomePage> {
     showModalBottomSheet(
       context: ctx,
       builder: (_) {
-        return NewTransaction(_addNewTransaction);
+        return GestureDetector(
+          onTap: () {},
+          child: NewTransaction(_addNewTransaction),
+          behavior: HitTestBehavior.opaque,
+        );
       },
     );
   }
