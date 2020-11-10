@@ -20,7 +20,7 @@ class TransactionItem extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               border: Border.all(
-                color: Colors.purple,
+                color: Theme.of(context).primaryColorLight,
                 width: 2,
               ),
             ),
@@ -30,7 +30,7 @@ class TransactionItem extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
-                color: Colors.purple,
+                color: Theme.of(context).primaryColorDark,
               ),
             ),
           ),
@@ -39,10 +39,11 @@ class TransactionItem extends StatelessWidget {
             children: [
               Text(
                 _trans.title,
-                style: TextStyle(
+                /*style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                ),
+                ),*/
+                style: Theme.of(context).textTheme.headline6,
               ),
               Text(
                 DateFormat('EEEE, MMM dd | HH:mm').format(_trans.transDate),
