@@ -57,6 +57,12 @@ class _NewTransactionState extends State<NewTransaction> {
             ),
             FlatButton(
               onPressed: submitData,
+              /*() {
+                widget.addTransaction(
+                  titleController.text,
+                  double.parse(amountController.text),
+                );
+              },*/
               child: Text('Add Transaction'),
               textColor: Colors.purple,
             ),

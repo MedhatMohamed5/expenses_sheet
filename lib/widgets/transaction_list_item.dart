@@ -39,6 +39,10 @@ class TransactionItem extends StatelessWidget {
             children: [
               Text(
                 _trans.title,
+                /*style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),*/
                 style: Theme.of(context).textTheme.headline6,
               ),
               Text(
