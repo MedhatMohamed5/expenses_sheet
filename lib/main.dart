@@ -1,8 +1,9 @@
-//import './widgets/user_transactions.dart';
-import 'package:expenses_sheet/widgets/new_transaction.dart';
+import './widgets/new_transaction.dart';
 
-import './models/transaction.dart';
+//import './widgets/user_transactions.dart';
+
 import './widgets/transaction_list.dart';
+import './models/transaction.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -18,19 +19,18 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
         accentColor: Colors.amber,
-        fontFamily: 'Quicksand',
+        fontFamily: 'QuickSand',
         textTheme: ThemeData.light().textTheme.copyWith(
               headline6: TextStyle(
-                fontFamily: 'Quicksand',
+                fontFamily: 'QuickSand',
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
-                fontSize: 18,
               ),
             ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
                 headline6: TextStyle(
                   fontFamily: 'OpenSans',
-                  fontWeight: FontWeight.bold,
                   fontSize: 20,
                 ),
               ),
@@ -80,8 +80,8 @@ class _MyHomePageState extends State<MyHomePage> {
       context: ctx,
       builder: (_) {
         return GestureDetector(
-          onTap: () {},
           child: NewTransaction(_addNewTransaction),
+          onTap: () {},
           behavior: HitTestBehavior.opaque,
         );
       },
@@ -92,12 +92,15 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Expenses Sheet'),
+        title: Text(
+          'Expenses Sheet',
+          style: TextStyle(
+            fontFamily: 'OpenSans',
+          ),
+        ),
         actions: [
           IconButton(
-            icon: Icon(
-              Icons.add,
-            ),
+            icon: Icon(Icons.add),
             onPressed: () => _startAddNewTransaction(context),
           ),
         ],
@@ -119,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),*/
             // NewTransaction(),
             TransactionList(_userTransactions),
-            // UserTransactions()
+            //UserTransactions()
           ],
         ),
       ),

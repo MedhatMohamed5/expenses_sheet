@@ -66,12 +66,14 @@ flutter:
         - asset: assets/fonts/OpenSans-Regular.ttf
         - asset: assets/fonts/OpenSans-Bold.ttf
           weight: 700
-    
-    - family: Quicksand
+    - family: QuickSand
       fonts:
-        - asset: assets/fonts/Quicksand-Regular.ttf
-        - asset: assets/fonts/Quicksand-Bold.ttf
+        - asset: assets/fonts/QuickSand-Regular.ttf
+        - asset: assets/fonts/QuickSand-Bold.ttf
           weight: 700
+        - asset: assets/fonts/QuickSand-Regular.ttf
+        - asset: assets/fonts/QuickSand-Regular.ttf
+
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

@@ -36,6 +36,7 @@ class _UserTransactionsState extends State<UserTransactions> {
 
     setState(() {
       _userTransactions.add(transaction);
+      print(_userTransactions);
     });
   }
 

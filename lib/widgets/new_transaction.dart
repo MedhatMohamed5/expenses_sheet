@@ -19,10 +19,7 @@ class _NewTransactionState extends State<NewTransaction> {
   void submitData() {
     final title = titleController.text;
     final amount = double.parse(amountController.text);
-
-    if (title.isEmpty || amount <= 0) {
-      return;
-    }
+    if (title.isEmpty || amount <= 0) return;
     widget.addTransaction(
       title,
       amount,
