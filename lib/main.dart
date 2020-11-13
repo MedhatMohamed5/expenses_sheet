@@ -22,10 +22,15 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.amber,
         fontFamily: 'QuickSand',
         textTheme: ThemeData.light().textTheme.copyWith(
-              headline6: TextStyle(
-                fontFamily: 'QuickSand',
-                fontSize: 20,
+              headline6: ThemeData.light().textTheme.headline6.copyWith(
+                    fontFamily: 'QuickSand',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+              button: TextStyle(
+                color: Colors.white,
                 fontWeight: FontWeight.bold,
+                //fontFamily: 'QuickSand',
               ),
             ),
         appBarTheme: AppBarTheme(
@@ -76,12 +81,12 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String title, double amount) {
+  void _addNewTransaction(String title, double amount, DateTime date) {
     final transaction = Transaction(
       amount: amount,
       title: title,
       id: DateTime.now().toString(),
-      transDate: DateTime.now(),
+      transDate: date,
     );
 
     setState(() {
@@ -100,6 +105,12 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
     );
+  }
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      _userTransactions.removeWhere((element) => element.id == id);
+    });
   }
 
   @override
@@ -125,17 +136,18 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Container(
               width: double.infinity,
-              child: Card(
-                color: Colors.blue,
-                child: Chart(_recentTransactions),
-                elevation: 5,
-              ),
+              child: Chart(_recentTransactions),
+              // child: Card(
+              //   color: Colors.blue,
+              //   child: Chart(_recentTransactions),
+              //   elevation: 5,
+              // ),
             ),
             /*Card(
               child: Text('LIST OF TX'),
             ),*/
             // NewTransaction(),
-            TransactionList(_userTransactions),
+            TransactionList(_userTransactions, _deleteTransaction),
             //UserTransactions()
           ],
         ),
