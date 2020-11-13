@@ -27,11 +27,14 @@ class TransactionItem extends StatelessWidget {
             padding: EdgeInsets.all(10),
             child: Text(
               'EGP ${_trans.amount.toStringAsFixed(2)}',
-              style: TextStyle(
+              /*style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
                 color: Theme.of(context).primaryColorDark,
-              ),
+              ),*/
+              style: Theme.of(context).textTheme.headline6.copyWith(
+                    color: Theme.of(context).primaryColorDark,
+                  ),
             ),
           ),
           Column(
