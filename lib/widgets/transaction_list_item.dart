@@ -4,12 +4,13 @@ import 'package:intl/intl.dart';
 
 class TransactionItem extends StatelessWidget {
   final Transaction _trans;
+  final Function deleteTrans;
 
-  TransactionItem(this._trans);
+  TransactionItem(this._trans, this.deleteTrans);
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    /*return Card(
       elevation: 2,
       child: Row(
         children: [
@@ -27,11 +28,14 @@ class TransactionItem extends StatelessWidget {
             padding: EdgeInsets.all(10),
             child: Text(
               'EGP ${_trans.amount.toStringAsFixed(2)}',
-              style: TextStyle(
+              /*style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
                 color: Theme.of(context).primaryColorDark,
-              ),
+              ),*/
+              style: Theme.of(context).textTheme.headline6.copyWith(
+                    color: Theme.of(context).primaryColorDark,
+                  ),
             ),
           ),
           Column(
@@ -46,7 +50,7 @@ class TransactionItem extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline6,
               ),
               Text(
-                DateFormat('EEEE, MMM dd | HH:mm').format(_trans.transDate),
+                DateFormat('EEEE, MMM d').format(_trans.transDate),
                 // DateFormat.MMMMEEEEd().format(_trans.transDate),
                 style: TextStyle(
                   color: Colors.grey,
@@ -56,6 +60,44 @@ class TransactionItem extends StatelessWidget {
           ),
         ],
       ),
+    );*/
+    return Card(
+      elevation: 5,
+      margin: EdgeInsets.all(8),
+      child: ListTile(
+        leading: CircleAvatar(
+          radius: 30,
+          child: Padding(
+            padding: const EdgeInsets.all(6.0),
+            child:
+                FittedBox(child: Text('${_trans.amount.toStringAsFixed(2)}')),
+          ),
+        ),
+        title: Text(
+          _trans.title,
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        subtitle: Text(
+          DateFormat('EEEE, MMM d ') //| HH:mm')
+              .format(_trans.transDate),
+          // DateFormat.MMMMEEEEd().format(_trans.transDate),
+          style: TextStyle(
+            color: Colors.grey,
+          ),
+        ),
+        trailing: IconButton(
+          icon: Icon(
+            Icons.delete,
+          ),
+          onPressed: () => deleteTrans(
+            _trans.id,
+          ),
+          color: Theme.of(context).errorColor,
+        ),
+      ),
+      /*children: transactions.map((trans) {
+          return TransactionItem(trans);
+        }).toList(),*/
     );
   }
 }
