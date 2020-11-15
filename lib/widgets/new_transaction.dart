@@ -46,72 +46,74 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            TextField(
-              controller: _titleController,
-              decoration: InputDecoration(
-                labelText: 'Title',
+    return SingleChildScrollView(
+      child: Card(
+        child: Container(
+          padding: EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              TextField(
+                controller: _titleController,
+                decoration: InputDecoration(
+                  labelText: 'Title',
+                ),
+                onSubmitted: (_) => _submitData(),
+                // onChanged: (value) {
+                //   titleInput = value;
+                // },
               ),
-              onSubmitted: (_) => _submitData(),
-              // onChanged: (value) {
-              //   titleInput = value;
-              // },
-            ),
-            TextField(
-              controller: _amountController,
-              decoration: InputDecoration(
-                labelText: 'Amount',
+              TextField(
+                controller: _amountController,
+                decoration: InputDecoration(
+                  labelText: 'Amount',
+                ),
+                keyboardType: TextInputType.number,
+                onSubmitted: (_) => _submitData(),
+                //onChanged: (value) => amountInput = value,
               ),
-              keyboardType: TextInputType.number,
-              onSubmitted: (_) => _submitData(),
-              //onChanged: (value) => amountInput = value,
-            ),
-            Container(
-              height: 70,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    _date == null
-                        ? 'No Date Chosen!'
-                        : DateFormat('EEEE, MMM d').format(_date),
-                  ),
-                  /*FlatButton(
-                    textColor: Theme.of(context).primaryColor,
-                    child: Text('Choose Date'),
-                    onPressed: () {},
-                  ),*/
-                  IconButton(
-                    icon: Icon(
-                      Icons.calendar_today,
-                      color: Theme.of(context).primaryColor,
+              Container(
+                height: 70,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      _date == null
+                          ? 'No Date Chosen!'
+                          : DateFormat('EEEE, MMM d').format(_date),
                     ),
-                    onPressed: _presentDatePicker,
-                  )
-                ],
+                    /*FlatButton(
+                      textColor: Theme.of(context).primaryColor,
+                      child: Text('Choose Date'),
+                      onPressed: () {},
+                    ),*/
+                    IconButton(
+                      icon: Icon(
+                        Icons.calendar_today,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      onPressed: _presentDatePicker,
+                    )
+                  ],
+                ),
               ),
-            ),
-            RaisedButton(
-              onPressed: _submitData,
-              /*() {
-                widget.addTransaction(
-                  _titleController.text,
-                  double.parse(_amountController.text),
-                );
-              },*/
-              child: Text('Add Transaction'),
-              textColor: Theme.of(context).textTheme.button.color,
-              color: Theme.of(context).primaryColor,
-            ),
-          ],
+              RaisedButton(
+                onPressed: _submitData,
+                /*() {
+                  widget.addTransaction(
+                    _titleController.text,
+                    double.parse(_amountController.text),
+                  );
+                },*/
+                child: Text('Add Transaction'),
+                textColor: Theme.of(context).textTheme.button.color,
+                color: Theme.of(context).primaryColor,
+              ),
+            ],
+          ),
         ),
+        elevation: 5,
       ),
-      elevation: 5,
     );
   }
 }

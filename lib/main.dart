@@ -115,39 +115,55 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Expenses Sheet',
-          style: TextStyle(
-            fontFamily: 'OpenSans',
-          ),
+    var appBar = AppBar(
+      title: Text(
+        'Expenses Sheet',
+        style: TextStyle(
+          fontFamily: 'OpenSans',
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => _startAddNewTransaction(context),
-          ),
-        ],
       ),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => _startAddNewTransaction(context),
+        ),
+      ],
+    );
+    final appBarHeight = appBar.preferredSize.height;
+
+    return Scaffold(
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
+            /*Container(
               width: double.infinity,
+              
+              child: Card(
+                color: Colors.blue,
+                child: Chart(_recentTransactions),
+                elevation: 5,
+              ),
+            ),*/
+            Container(
               child: Chart(_recentTransactions),
-              // child: Card(
-              //   color: Colors.blue,
-              //   child: Chart(_recentTransactions),
-              //   elevation: 5,
-              // ),
+              height: (MediaQuery.of(context).size.height -
+                      appBarHeight -
+                      MediaQuery.of(context).padding.top) *
+                  0.25,
             ),
             /*Card(
               child: Text('LIST OF TX'),
             ),*/
             // NewTransaction(),
-            TransactionList(_userTransactions, _deleteTransaction),
+            Container(
+              child: TransactionList(_userTransactions, _deleteTransaction),
+              height: (MediaQuery.of(context).size.height -
+                      appBarHeight -
+                      MediaQuery.of(context).padding.top) *
+                  0.75,
+            ),
             //UserTransactions()
           ],
         ),
