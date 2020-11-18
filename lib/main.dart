@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart';
+
 import './widgets/new_transaction.dart';
 
 //import './widgets/user_transactions.dart';
@@ -8,6 +10,12 @@ import 'package:flutter/material.dart';
 import './widgets/chart.dart';
 
 void main() {
+  /*WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.portraitUp,
+  ]);*/
+
   runApp(MyApp());
 }
 
@@ -71,6 +79,8 @@ class _MyHomePageState extends State<MyHomePage> {
     // ),
   ];
 
+  bool _showChart = false;
+
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((element) {
       return element.transDate.isAfter(
@@ -115,6 +125,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     var appBar = AppBar(
       title: Text(
         'Expenses Sheet',
@@ -131,6 +144,20 @@ class _MyHomePageState extends State<MyHomePage> {
     );
     final appBarHeight = appBar.preferredSize.height;
 
+    var transChart = Container(
+      child: Chart(_recentTransactions),
+      height: (MediaQuery.of(context).size.height -
+              appBarHeight -
+              MediaQuery.of(context).padding.top) *
+          (isLandscape ? 0.6 : 0.25),
+    );
+    var transList = Container(
+      child: TransactionList(_userTransactions, _deleteTransaction),
+      height: (MediaQuery.of(context).size.height -
+              appBarHeight -
+              MediaQuery.of(context).padding.top) *
+          0.75,
+    );
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
@@ -138,32 +165,41 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             /*Container(
-              width: double.infinity,
-              
-              child: Card(
-                color: Colors.blue,
-                child: Chart(_recentTransactions),
-                elevation: 5,
+                          width: double.infinity,
+                          
+                          child: Card(
+                            color: Colors.blue,
+                            child: Chart(_recentTransactions),
+                            elevation: 5,
+                          ),
+                        ),*/
+            if (isLandscape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Show Chart',
+                  ),
+                  Switch(
+                      value: _showChart,
+                      onChanged: (val) {
+                        setState(() {
+                          _showChart = val;
+                        });
+                      })
+                ],
               ),
-            ),*/
-            Container(
-              child: Chart(_recentTransactions),
-              height: (MediaQuery.of(context).size.height -
-                      appBarHeight -
-                      MediaQuery.of(context).padding.top) *
-                  0.25,
-            ),
-            /*Card(
-              child: Text('LIST OF TX'),
-            ),*/
-            // NewTransaction(),
-            Container(
-              child: TransactionList(_userTransactions, _deleteTransaction),
-              height: (MediaQuery.of(context).size.height -
-                      appBarHeight -
-                      MediaQuery.of(context).padding.top) *
-                  0.75,
-            ),
+            if (!isLandscape) transChart,
+            if (!isLandscape) transList,
+            if (isLandscape)
+              _showChart
+                  ? transChart
+                  :
+                  /*Card(
+                      child: Text('LIST OF TX'),
+                    ),*/
+                  // NewTransaction(),
+                  transList,
             //UserTransactions()
           ],
         ),
