@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:expenses_sheet/widgets/adaptive_icon_button.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -92,13 +96,24 @@ class _NewTransactionState extends State<NewTransaction> {
                       child: Text('Choose Date'),
                       onPressed: () {},
                     ),*/
-                    IconButton(
-                      icon: Icon(
-                        Icons.calendar_today,
-                        color: Theme.of(context).primaryColor,
-                      ),
+                    /*Platform.isIOS
+                        ? CupertinoButton(
+                            child: Icon(CupertinoIcons.calendar_today),
+                            onPressed: _presentDatePicker,
+                          )
+                        : IconButton(
+                            icon: Icon(
+                              Icons.calendar_today,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            onPressed: _presentDatePicker,
+                          ),*/
+                    AdaptiveIconButton(
+                      icon: Platform.isIOS
+                          ? CupertinoIcons.calendar_today
+                          : Icons.calendar_today,
                       onPressed: _presentDatePicker,
-                    )
+                    ),
                   ],
                 ),
               ),
