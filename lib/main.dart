@@ -125,8 +125,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    final mediaQuery = MediaQuery.of(context);
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
 
     var appBar = AppBar(
       title: Text(
@@ -146,16 +146,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
     var transChart = Container(
       child: Chart(_recentTransactions),
-      height: (MediaQuery.of(context).size.height -
-              appBarHeight -
-              MediaQuery.of(context).padding.top) *
+      height: (mediaQuery.size.height - appBarHeight - mediaQuery.padding.top) *
           (isLandscape ? 0.6 : 0.25),
     );
+
     var transList = Container(
       child: TransactionList(_userTransactions, _deleteTransaction),
-      height: (MediaQuery.of(context).size.height -
-              appBarHeight -
-              MediaQuery.of(context).padding.top) *
+      height: (mediaQuery.size.height - appBarHeight - mediaQuery.padding.top) *
           0.75,
     );
     return Scaffold(
