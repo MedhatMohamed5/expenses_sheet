@@ -1,12 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
-// import 'package:flutter/services.dart';
-
 import './widgets/new_transaction.dart';
-
-//import './widgets/user_transactions.dart';
-
 import './widgets/transaction_list.dart';
 import './models/transaction.dart';
 import 'package:flutter/material.dart';
@@ -126,6 +120,32 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  List<Widget> _buildLandscapeContent(Widget transChart, Widget transList) => [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Show Chart',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            Switch.adaptive(
+                activeColor: Theme.of(context).accentColor,
+                value: _showChart,
+                onChanged: (val) {
+                  setState(() {
+                    _showChart = val;
+                  });
+                })
+          ],
+        ),
+        _showChart ? transChart : transList,
+      ];
+
+  List<Widget> _buildPortraitContent(Widget transChart, Widget transList) => [
+        transChart,
+        transList,
+      ];
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -166,66 +186,30 @@ class _MyHomePageState extends State<MyHomePage> {
 
     final appBarHeight = appBar.preferredSize.height;
 
-    var transChart = Container(
+    final transChart = Container(
       child: Chart(_recentTransactions),
       height: (mediaQuery.size.height - appBarHeight - mediaQuery.padding.top) *
           (isLandscape ? 0.6 : 0.25),
     );
 
-    var transList = Container(
+    final transList = Container(
       child: TransactionList(_userTransactions, _deleteTransaction),
       height: (mediaQuery.size.height - appBarHeight - mediaQuery.padding.top) *
           0.75,
     );
 
-    var pageBody = SafeArea(
+    final pageBody = SafeArea(
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            /*Container(
-                              width: double.infinity,
-                              
-                              child: Card(
-                                color: Colors.blue,
-                                child: Chart(_recentTransactions),
-                                elevation: 5,
-                              ),
-                            ),*/
-            if (isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Show Chart',
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  Switch.adaptive(
-                      activeColor: Theme.of(context).accentColor,
-                      value: _showChart,
-                      onChanged: (val) {
-                        setState(() {
-                          _showChart = val;
-                        });
-                      })
-                ],
-              ),
-            if (!isLandscape) transChart,
-            if (!isLandscape) transList,
-            if (isLandscape)
-              _showChart
-                  ? transChart
-                  :
-                  /*Card(
-                          child: Text('LIST OF TX'),
-                        ),*/
-                  // NewTransaction(),
-                  transList,
-            //UserTransactions()
+            if (isLandscape) ..._buildLandscapeContent(transChart, transList),
+            if (!isLandscape) ..._buildPortraitContent(transChart, transList),
           ],
         ),
       ),
     );
+
     return Platform.isIOS
         ? CupertinoPageScaffold(
             child: pageBody,
