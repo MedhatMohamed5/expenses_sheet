@@ -146,43 +146,50 @@ class _MyHomePageState extends State<MyHomePage> {
         transList,
       ];
 
+  Widget _buildAndroidBar(BuildContext context) {
+    return AppBar(
+      title: Text(
+        'Expenses Sheet',
+        style: TextStyle(
+          fontFamily: 'OpenSans',
+        ),
+      ),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => _startAddNewTransaction(context),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildIosBar(BuildContext context) {
+    return CupertinoNavigationBar(
+      middle: Text(
+        'Expenses Sheet',
+        style: TextStyle(
+          fontFamily: 'OpenSans',
+        ),
+      ),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          GestureDetector(
+            child: Icon(CupertinoIcons.add),
+            onTap: () => _startAddNewTransaction(context),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
 
-    final PreferredSizeWidget appBar = Platform.isIOS
-        ? CupertinoNavigationBar(
-            middle: Text(
-              'Expenses Sheet',
-              style: TextStyle(
-                fontFamily: 'OpenSans',
-              ),
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                GestureDetector(
-                  child: Icon(CupertinoIcons.add),
-                  onTap: () => _startAddNewTransaction(context),
-                ),
-              ],
-            ),
-          )
-        : AppBar(
-            title: Text(
-              'Expenses Sheet',
-              style: TextStyle(
-                fontFamily: 'OpenSans',
-              ),
-            ),
-            actions: [
-              IconButton(
-                icon: Icon(Icons.add),
-                onPressed: () => _startAddNewTransaction(context),
-              ),
-            ],
-          );
+    final PreferredSizeWidget appBar =
+        Platform.isIOS ? _buildIosBar(context) : _buildAndroidBar(context);
 
     final appBarHeight = appBar.preferredSize.height;
 
