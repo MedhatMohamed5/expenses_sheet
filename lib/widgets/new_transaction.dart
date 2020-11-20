@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
-  // String titleInput;
-  // String amountInput;
   final Function addTransaction;
 
   NewTransaction(this.addTransaction);
@@ -68,9 +66,6 @@ class _NewTransactionState extends State<NewTransaction> {
                   labelText: 'Title',
                 ),
                 onSubmitted: (_) => _submitData(),
-                // onChanged: (value) {
-                //   titleInput = value;
-                // },
               ),
               TextField(
                 controller: _amountController,
@@ -79,7 +74,6 @@ class _NewTransactionState extends State<NewTransaction> {
                 ),
                 keyboardType: TextInputType.number,
                 onSubmitted: (_) => _submitData(),
-                //onChanged: (value) => amountInput = value,
               ),
               Container(
                 height: 70,
@@ -91,23 +85,6 @@ class _NewTransactionState extends State<NewTransaction> {
                           ? 'No Date Chosen!'
                           : DateFormat('EEEE, MMM d').format(_date),
                     ),
-                    /*FlatButton(
-                      textColor: Theme.of(context).primaryColor,
-                      child: Text('Choose Date'),
-                      onPressed: () {},
-                    ),*/
-                    /*Platform.isIOS
-                        ? CupertinoButton(
-                            child: Icon(CupertinoIcons.calendar_today),
-                            onPressed: _presentDatePicker,
-                          )
-                        : IconButton(
-                            icon: Icon(
-                              Icons.calendar_today,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            onPressed: _presentDatePicker,
-                          ),*/
                     AdaptiveIconButton(
                       icon: Platform.isIOS
                           ? CupertinoIcons.calendar_today

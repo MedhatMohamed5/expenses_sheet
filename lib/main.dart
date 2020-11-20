@@ -1,12 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
-// import 'package:flutter/services.dart';
-
 import './widgets/new_transaction.dart';
-
-//import './widgets/user_transactions.dart';
-
 import './widgets/transaction_list.dart';
 import './models/transaction.dart';
 import 'package:flutter/material.dart';
@@ -126,106 +120,103 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  List<Widget> _buildLandscapeContent(Widget transChart, Widget transList) => [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Show Chart',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            Switch.adaptive(
+                activeColor: Theme.of(context).accentColor,
+                value: _showChart,
+                onChanged: (val) {
+                  setState(() {
+                    _showChart = val;
+                  });
+                })
+          ],
+        ),
+        _showChart ? transChart : transList,
+      ];
+
+  List<Widget> _buildPortraitContent(Widget transChart, Widget transList) => [
+        transChart,
+        transList,
+      ];
+
+  Widget _buildAndroidBar(BuildContext context) {
+    return AppBar(
+      title: Text(
+        'Expenses Sheet',
+        style: TextStyle(
+          fontFamily: 'OpenSans',
+        ),
+      ),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => _startAddNewTransaction(context),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildIosBar(BuildContext context) {
+    return CupertinoNavigationBar(
+      middle: Text(
+        'Expenses Sheet',
+        style: TextStyle(
+          fontFamily: 'OpenSans',
+        ),
+      ),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          GestureDetector(
+            child: Icon(CupertinoIcons.add),
+            onTap: () => _startAddNewTransaction(context),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
 
-    final PreferredSizeWidget appBar = Platform.isIOS
-        ? CupertinoNavigationBar(
-            middle: Text(
-              'Expenses Sheet',
-              style: TextStyle(
-                fontFamily: 'OpenSans',
-              ),
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                GestureDetector(
-                  child: Icon(CupertinoIcons.add),
-                  onTap: () => _startAddNewTransaction(context),
-                ),
-              ],
-            ),
-          )
-        : AppBar(
-            title: Text(
-              'Expenses Sheet',
-              style: TextStyle(
-                fontFamily: 'OpenSans',
-              ),
-            ),
-            actions: [
-              IconButton(
-                icon: Icon(Icons.add),
-                onPressed: () => _startAddNewTransaction(context),
-              ),
-            ],
-          );
+    final PreferredSizeWidget appBar =
+        Platform.isIOS ? _buildIosBar(context) : _buildAndroidBar(context);
 
     final appBarHeight = appBar.preferredSize.height;
 
-    var transChart = Container(
+    final transChart = Container(
       child: Chart(_recentTransactions),
       height: (mediaQuery.size.height - appBarHeight - mediaQuery.padding.top) *
           (isLandscape ? 0.6 : 0.25),
     );
 
-    var transList = Container(
+    final transList = Container(
       child: TransactionList(_userTransactions, _deleteTransaction),
       height: (mediaQuery.size.height - appBarHeight - mediaQuery.padding.top) *
           0.75,
     );
 
-    var pageBody = SafeArea(
+    final pageBody = SafeArea(
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            /*Container(
-                              width: double.infinity,
-                              
-                              child: Card(
-                                color: Colors.blue,
-                                child: Chart(_recentTransactions),
-                                elevation: 5,
-                              ),
-                            ),*/
-            if (isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Show Chart',
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  Switch.adaptive(
-                      activeColor: Theme.of(context).accentColor,
-                      value: _showChart,
-                      onChanged: (val) {
-                        setState(() {
-                          _showChart = val;
-                        });
-                      })
-                ],
-              ),
-            if (!isLandscape) transChart,
-            if (!isLandscape) transList,
-            if (isLandscape)
-              _showChart
-                  ? transChart
-                  :
-                  /*Card(
-                          child: Text('LIST OF TX'),
-                        ),*/
-                  // NewTransaction(),
-                  transList,
-            //UserTransactions()
+            if (isLandscape) ..._buildLandscapeContent(transChart, transList),
+            if (!isLandscape) ..._buildPortraitContent(transChart, transList),
           ],
         ),
       ),
     );
+
     return Platform.isIOS
         ? CupertinoPageScaffold(
             child: pageBody,
